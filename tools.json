@@ -171,6 +171,10 @@
           "topic": {
             "type": "string",
             "description": "Channel topic/description (optional)"
+          },
+          "parent_id": {
+            "type": "string",
+            "description": "Parent channel ID to create this as a subchannel (optional)"
           }
         },
         "required": ["space_id", "name"],

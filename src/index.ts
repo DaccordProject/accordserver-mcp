@@ -107,12 +107,22 @@ function prompt() {
           break;
 
         case "create-channel":
-          requireArgs(parts, 2, "create-channel <space_id> <name> [topic...]");
-          printResult(
-            await client.createChannel(parts[1], parts[2], {
-              topic: parts.length > 3 ? parts.slice(3).join(" ") : undefined,
-            })
-          );
+          requireArgs(parts, 2, "create-channel <space_id> <name> [--parent <parent_id>] [topic...]");
+          {
+            let parentId: string | undefined;
+            let topicParts = parts.slice(3);
+            const parentIdx = topicParts.indexOf("--parent");
+            if (parentIdx !== -1) {
+              parentId = topicParts[parentIdx + 1];
+              topicParts = [...topicParts.slice(0, parentIdx), ...topicParts.slice(parentIdx + 2)];
+            }
+            printResult(
+              await client.createChannel(parts[1], parts[2], {
+                topic: topicParts.length > 0 ? topicParts.join(" ") : undefined,
+                parentId,
+              })
+            );
+          }
           break;
 
         case "delete-channel":
@@ -210,7 +220,7 @@ Read:
 
 Write:
   send <channel_id> <message...>    Send a message
-  create-channel <space_id> <name> [topic...]
+  create-channel <space_id> <name> [--parent <id>] [topic...]
   delete-channel <channel_id>
   delete-message <message_id>
 

@@ -106,11 +106,12 @@ export class AccordMCPClient {
   async createChannel(
     spaceId: string,
     name: string,
-    options?: { channelType?: string; topic?: string }
+    options?: { channelType?: string; topic?: string; parentId?: string }
   ) {
     const args: Record<string, unknown> = { space_id: spaceId, name };
     if (options?.channelType) args.channel_type = options.channelType;
     if (options?.topic) args.topic = options.topic;
+    if (options?.parentId) args.parent_id = options.parentId;
     return this.callTool("create_channel", args);
   }
 
