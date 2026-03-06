@@ -1,0 +1,190 @@
+openapi: 3.1.0
+info:
+  title: Accord Server MCP Endpoint
+  version: 0.1.13
+  description: |
+    MCP (Model Context Protocol) endpoint for AI agent access to an Accord
+    chat server. Uses JSON-RPC 2.0 over HTTP with bearer token authentication.
+
+servers:
+  - url: http://localhost:39099
+    description: Local development server
+
+paths:
+  /mcp:
+    post:
+      operationId: mcpRequest
+      summary: MCP JSON-RPC 2.0 endpoint
+      description: |
+        Accepts JSON-RPC 2.0 requests implementing the Model Context Protocol.
+        Requires a valid MCP API key in the Authorization header.
+      security:
+        - mcpApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JsonRpcRequest"
+            examples:
+              initialize:
+                summary: Initialize handshake
+                value:
+                  jsonrpc: "2.0"
+                  id: 1
+                  method: initialize
+                  params:
+                    protocolVersion: "2025-03-26"
+                    capabilities: {}
+                    clientInfo:
+                      name: my-client
+                      version: "1.0.0"
+              tools_list:
+                summary: List available tools
+                value:
+                  jsonrpc: "2.0"
+                  id: 2
+                  method: tools/list
+              tools_call:
+                summary: Call a tool
+                value:
+                  jsonrpc: "2.0"
+                  id: 3
+                  method: tools/call
+                  params:
+                    name: list_spaces
+                    arguments: {}
+      responses:
+        "200":
+          description: JSON-RPC 2.0 response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonRpcResponse"
+        "401":
+          description: Invalid or missing MCP API key
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonRpcResponse"
+        "503":
+          description: MCP endpoint not enabled (MCP_API_KEY not configured on server)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JsonRpcResponse"
+
+components:
+  securitySchemes:
+    mcpApiKey:
+      type: http
+      scheme: bearer
+      description: MCP API key configured via MCP_API_KEY environment variable on the server
+
+  schemas:
+    JsonRpcRequest:
+      type: object
+      required:
+        - jsonrpc
+        - method
+      properties:
+        jsonrpc:
+          type: string
+          const: "2.0"
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+            - type: "null"
+        method:
+          type: string
+          enum:
+            - initialize
+            - notifications/initialized
+            - ping
+            - tools/list
+            - tools/call
+        params:
+          type: object
+
+    JsonRpcResponse:
+      type: object
+      required:
+        - jsonrpc
+      properties:
+        jsonrpc:
+          type: string
+          const: "2.0"
+        id:
+          oneOf:
+            - type: string
+            - type: integer
+            - type: "null"
+        result:
+          description: Present on success
+        error:
+          $ref: "#/components/schemas/JsonRpcError"
+
+    JsonRpcError:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          description: |
+            Standard JSON-RPC error codes plus custom:
+            - -32601: Method not found
+            - -32602: Invalid params
+            - -32000: MCP not enabled
+            - -32001: Authentication failed
+        message:
+          type: string
+        data:
+          description: Optional additional error data
+
+    ToolCallParams:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          enum:
+            - list_spaces
+            - get_space
+            - list_channels
+            - list_members
+            - get_user
+            - list_messages
+            - search_messages
+            - send_message
+            - create_channel
+            - delete_channel
+            - kick_member
+            - ban_user
+            - unban_user
+            - delete_message
+            - server_info
+        arguments:
+          type: object
+          description: Tool-specific arguments (see tool definitions)
+
+    ToolResult:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                const: text
+              text:
+                type: string
+                description: JSON-encoded result or error message
+        isError:
+          type: boolean
+          description: Present and true when the tool call failed

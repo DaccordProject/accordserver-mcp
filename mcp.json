@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "accord": {
+      "type": "streamable-http",
+      "url": "http://localhost:39099/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_MCP_API_KEY"
+      }
+    }
+  }
+}

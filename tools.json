@@ -1,0 +1,281 @@
+{
+  "tools": [
+    {
+      "name": "list_spaces",
+      "description": "List all spaces (servers) on this Accord instance",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_space",
+      "description": "Get details about a specific space by ID",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_channels",
+      "description": "List all channels in a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_members",
+      "description": "List members of a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max members to return (default 50, max 200)"
+          }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_user",
+      "description": "Get information about a user by ID",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string",
+            "description": "The user ID"
+          }
+        },
+        "required": ["user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_messages",
+      "description": "List recent messages in a channel",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": {
+            "type": "string",
+            "description": "The channel ID"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max messages to return (default 50, max 100)"
+          },
+          "after": {
+            "type": "string",
+            "description": "Return messages after this message ID (for pagination)"
+          }
+        },
+        "required": ["channel_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_messages",
+      "description": "Search messages in a space by content, author, or other filters",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID to search in"
+          },
+          "query": {
+            "type": "string",
+            "description": "Text to search for in message content"
+          },
+          "author_id": {
+            "type": "string",
+            "description": "Filter by author user ID"
+          },
+          "channel_id": {
+            "type": "string",
+            "description": "Filter to a specific channel"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max results (default 25, max 100)"
+          }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "send_message",
+      "description": "Send a message to a channel",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": {
+            "type": "string",
+            "description": "The channel ID to send to"
+          },
+          "content": {
+            "type": "string",
+            "description": "Message content"
+          },
+          "reply_to": {
+            "type": "string",
+            "description": "Message ID to reply to (optional)"
+          }
+        },
+        "required": ["channel_id", "content"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "create_channel",
+      "description": "Create a new channel in a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Channel name"
+          },
+          "channel_type": {
+            "type": "string",
+            "description": "Channel type: 'text' or 'voice' (default: 'text')"
+          },
+          "topic": {
+            "type": "string",
+            "description": "Channel topic/description (optional)"
+          }
+        },
+        "required": ["space_id", "name"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "delete_channel",
+      "description": "Delete a channel",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": {
+            "type": "string",
+            "description": "The channel ID to delete"
+          }
+        },
+        "required": ["channel_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "kick_member",
+      "description": "Remove a member from a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "The user ID to kick"
+          }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "ban_user",
+      "description": "Ban a user from a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "The user ID to ban"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Reason for the ban (optional)"
+          }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "unban_user",
+      "description": "Remove a ban from a user in a space",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "description": "The space ID"
+          },
+          "user_id": {
+            "type": "string",
+            "description": "The user ID to unban"
+          }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "delete_message",
+      "description": "Delete a message by ID",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message_id": {
+            "type": "string",
+            "description": "The message ID to delete"
+          }
+        },
+        "required": ["message_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "server_info",
+      "description": "Get general server information and statistics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ]
+}
