@@ -32,8 +32,8 @@ Add a `.mcp.json` file to your project root (or `~/.claude/.mcp.json` for global
 Or add it interactively:
 
 ```bash
-claude mcp add accord --transport streamable-http http://localhost:39099/mcp \
-  -h "Authorization: Bearer YOUR_MCP_API_KEY"
+claude mcp add accord --transport http http://localhost:39099/mcp \
+  -H "Authorization: Bearer YOUR_MCP_API_KEY"
 ```
 
 ### Codex (OpenAI)
