@@ -103,7 +103,13 @@ The server speaks standard MCP over streamable HTTP. Point any client at:
 
 A built-in interactive client is included for testing or scripting.
 
-### Install & run
+### Quick install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DaccordProject/accordserver-mcp/main/install.sh | bash
+```
+
+### Install & run (manual)
 
 ```bash
 npm install
