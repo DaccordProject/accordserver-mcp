@@ -1,0 +1,448 @@
+{
+  "tools": [
+    {
+      "name": "get_current_state",
+      "description": "Get the current app state: active space, channel, layout mode, viewport size, UI panel visibility",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_spaces",
+      "description": "List all spaces (servers) the user is connected to",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_space",
+      "description": "Get details about a specific space by ID",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_channels",
+      "description": "List all channels in a space",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_members",
+      "description": "List members of a space",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" },
+          "limit": { "type": "integer", "description": "Max members to return" }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_user",
+      "description": "Get information about a user by ID",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string", "description": "The user ID" }
+        },
+        "required": ["user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_messages",
+      "description": "List recent messages in a channel",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": { "type": "string", "description": "The channel ID" },
+          "limit": { "type": "integer", "description": "Max messages to return" },
+          "after": { "type": "string", "description": "Return messages after this message ID" }
+        },
+        "required": ["channel_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "search_messages",
+      "description": "Search messages in a space",
+      "group": "read",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID to search in" },
+          "query": { "type": "string", "description": "Text to search for" },
+          "author_id": { "type": "string", "description": "Filter by author user ID" },
+          "channel_id": { "type": "string", "description": "Filter to a specific channel" },
+          "limit": { "type": "integer", "description": "Max results" }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "select_space",
+      "description": "Switch the active space in the UI",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID to select" }
+        },
+        "required": ["space_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "select_channel",
+      "description": "Switch the active channel in the UI",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": { "type": "string", "description": "The channel ID to select" }
+        },
+        "required": ["channel_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_dm",
+      "description": "Open a direct message conversation with a user",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "user_id": { "type": "string", "description": "The user ID to DM" }
+        },
+        "required": ["user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_settings",
+      "description": "Open app or user settings, optionally to a specific page",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "page": { "type": "string", "description": "Settings page name (optional)" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_discovery",
+      "description": "Open the server discovery panel",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_thread",
+      "description": "Open a message thread panel",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message_id": { "type": "string", "description": "The parent message ID" }
+        },
+        "required": ["message_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_voice_view",
+      "description": "Open the voice/video view panel",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle_member_list",
+      "description": "Show or hide the member list panel",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle_search",
+      "description": "Show or hide the search panel",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "navigate_to_surface",
+      "description": "Navigate to a specific UI surface by ID (for UI auditing)",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "surface_id": { "type": "string", "description": "Surface ID (e.g. '6.2')" },
+          "state": { "type": "string", "description": "Optional state variant (e.g. 'with_reply')" }
+        },
+        "required": ["surface_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "open_dialog",
+      "description": "Open a named dialog (from hardcoded allowlist)",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "dialog_name": { "type": "string", "description": "Dialog name (e.g. 'ban', 'create_channel')" }
+        },
+        "required": ["dialog_name"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "set_viewport_size",
+      "description": "Resize the viewport to test responsive breakpoints",
+      "group": "navigate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "preset": { "type": "string", "description": "Preset name: 'compact', 'medium', or 'full'" },
+          "width": { "type": "integer", "description": "Custom width in pixels (320-3840)" },
+          "height": { "type": "integer", "description": "Custom height in pixels (320-3840)" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "take_screenshot",
+      "description": "Capture the current viewport as a PNG screenshot",
+      "group": "screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "save_path": { "type": "string", "description": "Optional path to save the PNG file" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "list_surfaces",
+      "description": "List all UI surfaces available for auditing/screenshots",
+      "group": "screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "section": { "type": "string", "description": "Filter by section name (optional)" }
+        },
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "get_surface_info",
+      "description": "Get prerequisites and metadata for a UI surface",
+      "group": "screenshot",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "surface_id": { "type": "string", "description": "Surface ID (e.g. '6.2')" }
+        },
+        "required": ["surface_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "send_message",
+      "description": "Send a message to a channel as the current user",
+      "group": "message",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": { "type": "string", "description": "The channel ID to send to" },
+          "content": { "type": "string", "description": "Message content" },
+          "reply_to": { "type": "string", "description": "Message ID to reply to (optional)" }
+        },
+        "required": ["channel_id", "content"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "edit_message",
+      "description": "Edit a message (must be authored by the current user)",
+      "group": "message",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message_id": { "type": "string", "description": "The message ID to edit" },
+          "content": { "type": "string", "description": "New message content" }
+        },
+        "required": ["message_id", "content"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "delete_message",
+      "description": "Delete a message",
+      "group": "message",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message_id": { "type": "string", "description": "The message ID to delete" }
+        },
+        "required": ["message_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "add_reaction",
+      "description": "Add an emoji reaction to a message",
+      "group": "message",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "message_id": { "type": "string", "description": "The message ID" },
+          "emoji": { "type": "string", "description": "Emoji to react with" }
+        },
+        "required": ["message_id", "emoji"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "kick_member",
+      "description": "Remove a member from a space",
+      "group": "moderate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" },
+          "user_id": { "type": "string", "description": "The user ID to kick" }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "ban_user",
+      "description": "Ban a user from a space",
+      "group": "moderate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" },
+          "user_id": { "type": "string", "description": "The user ID to ban" },
+          "reason": { "type": "string", "description": "Reason for the ban (optional)" }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "unban_user",
+      "description": "Remove a ban from a user in a space",
+      "group": "moderate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" },
+          "user_id": { "type": "string", "description": "The user ID to unban" }
+        },
+        "required": ["space_id", "user_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "timeout_member",
+      "description": "Temporarily mute a member for a duration",
+      "group": "moderate",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "space_id": { "type": "string", "description": "The space ID" },
+          "user_id": { "type": "string", "description": "The user ID to timeout" },
+          "duration_seconds": { "type": "integer", "description": "Timeout duration in seconds" }
+        },
+        "required": ["space_id", "user_id", "duration_seconds"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "join_voice_channel",
+      "description": "Join a voice channel",
+      "group": "voice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "channel_id": { "type": "string", "description": "The voice channel ID to join" }
+        },
+        "required": ["channel_id"],
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "leave_voice",
+      "description": "Leave the current voice channel",
+      "group": "voice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle_mute",
+      "description": "Toggle microphone mute on/off",
+      "group": "voice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    },
+    {
+      "name": "toggle_deafen",
+      "description": "Toggle deafen (mute all audio) on/off",
+      "group": "voice",
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      }
+    }
+  ]
+}

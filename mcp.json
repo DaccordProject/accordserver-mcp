@@ -6,6 +6,13 @@
       "headers": {
         "Authorization": "Bearer YOUR_MCP_API_KEY"
       }
+    },
+    "daccord": {
+      "type": "streamable-http",
+      "url": "http://localhost:39101/mcp",
+      "headers": {
+        "Authorization": "Bearer YOUR_DACCORD_MCP_TOKEN"
+      }
     }
   }
 }

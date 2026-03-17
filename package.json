@@ -1,16 +1,19 @@
 {
   "name": "accordserver-mcp-client",
-  "version": "0.1.0",
-  "description": "MCP client for Accord chat server",
+  "version": "0.2.0",
+  "description": "MCP client for Accord chat — server admin and daccord desktop client control",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "accord-mcp": "dist/index.js"
+    "accord-mcp": "dist/index.js",
+    "daccord-mcp": "dist/client-cli.js"
   },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsx src/index.ts"
+    "start:client": "node dist/client-cli.js",
+    "dev": "tsx src/index.ts",
+    "dev:client": "tsx src/client-cli.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1"
