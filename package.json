@@ -6,14 +6,17 @@
   "main": "dist/index.js",
   "bin": {
     "accord-mcp": "dist/index.js",
-    "daccord-mcp": "dist/client-cli.js"
+    "daccord-mcp": "dist/client-cli.js",
+    "daccord-ui-audit": "dist/ui-audit.js"
   },
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
     "start:client": "node dist/client-cli.js",
+    "start:audit": "node dist/ui-audit.js",
     "dev": "tsx src/index.ts",
-    "dev:client": "tsx src/client-cli.ts"
+    "dev:client": "tsx src/client-cli.ts",
+    "dev:audit": "tsx src/ui-audit.ts"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1"

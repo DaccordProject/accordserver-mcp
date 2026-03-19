@@ -166,6 +166,15 @@ function prompt() {
           }
           break;
 
+        case "theme":
+          requireArgs(parts, 1, "theme <dark|light|nord|monokai|solarized>");
+          printResult(await client.setTheme(parts[1]));
+          break;
+
+        case "tokens":
+          printResult(await client.getDesignTokens());
+          break;
+
         // --- Screenshot ---
         case "screenshot":
           printResult(await client.takeScreenshot(parts[1]));
@@ -324,6 +333,8 @@ Navigate:
   navigate <surface_id> [state]     Navigate to UI surface (for auditing)
   dialog <name>                     Open a named dialog
   viewport <preset|WxH>             Resize viewport (compact/medium/full or 1280x720)
+  theme <preset>                    Apply theme (dark/light/nord/monokai/solarized)
+  tokens                            Get current theme palette as hex color tokens
 
 Screenshot:
   screenshot [save_path]            Capture viewport screenshot

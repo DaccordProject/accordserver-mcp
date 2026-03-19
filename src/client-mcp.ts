@@ -159,6 +159,16 @@ export class DaccordClientMCPClient {
     return this.callTool("set_viewport_size", options as Record<string, unknown>);
   }
 
+  async setTheme(preset: string): Promise<unknown>;
+  async setTheme(options: { preset?: string; themeString?: string }): Promise<unknown>;
+  async setTheme(arg: string | { preset?: string; themeString?: string }) {
+    if (typeof arg === "string") return this.callTool("set_theme", { preset: arg });
+    const args: Record<string, unknown> = {};
+    if (arg.preset) args.preset = arg.preset;
+    if (arg.themeString) args.theme_string = arg.themeString;
+    return this.callTool("set_theme", args);
+  }
+
   // --- Screenshot Operations (group: screenshot) ---
 
   async takeScreenshot(savePath?: string) {
@@ -175,6 +185,10 @@ export class DaccordClientMCPClient {
 
   async getSurfaceInfo(surfaceId: string) {
     return this.callTool("get_surface_info", { surface_id: surfaceId });
+  }
+
+  async getDesignTokens() {
+    return this.callTool("get_design_tokens");
   }
 
   // --- Message Operations (group: message) ---
